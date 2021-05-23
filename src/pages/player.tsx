@@ -34,7 +34,7 @@ const pause = (accessToken: string, deviceId: string) => {
 
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
-  const [paused, setPaused] = React.useState(false);
+  const [paused, setPaused] = React.useState(true);
   const [currentTrack, setCurrentTrack] = React.useState("");
   const [deviceId, player] = useSpotifyPlayer(accessToken);
 
@@ -67,7 +67,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
           paused ? play(accessToken, deviceId) : pause(accessToken, deviceId);
         }}
       >
-        {paused ? "play" : "pause"}
+      {paused ? "play" : "stop"}
       </button>
     </Layout>
   );

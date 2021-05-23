@@ -26,17 +26,8 @@ const useSpotifyPlayer = (accessToken?: string): [string, any] => {
 
   const initPlayer: PlayerEventCallback = ({ device_id }) => {
     logger.log("Ready with Device ID", device_id);
-    fetch("https://api.spotify.com/v1/me/player", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        device_ids: [device_id],
-      }),
-    }).then(() => {
-      setDeviceId(device_id);
-    });
+
+    setDeviceId(device_id);
   };
 
   const deviceDisconnected: PlayerEventCallback = ({ device_id }) => {

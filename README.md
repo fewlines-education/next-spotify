@@ -27,7 +27,7 @@ Add a `redirect_uri` in the settings: http://localhost:3000/api/callback.
 
 Set all that information in the `.env.local` file.
 
-You will need a Spotify premium account for this project, if you don't have one yet, ask us.
+You will need a Spotify premium account for this project, if you don't have one, you can create a new account and you will have 15 days free (just don't forget to immediatly cancel your subscription).
 
 ### Start
 
