@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { Layout } from "../components/Layout";
 import React from "react";
 import { SpotifyState, SpotifyUser } from "../types/spotify";
-import Footer from "../components/Footer";
+import { pathToFileURL } from "url";
 
 interface Props {
   user: SpotifyUser;
@@ -33,6 +33,7 @@ export const pause = (accessToken: string, deviceId: string) => {
   });
 };
 
+
 export const getAlbum = (accessToken: string) => {
   return fetch(`https://api.spotify.com/v1/albums/7tB40pGzj6Tg0HePj2jWZt`, {
     method: "GET",
@@ -45,10 +46,36 @@ export const getAlbum = (accessToken: string) => {
   });
 };
 
+
+// export const nextTrack = (accessToken: string, currentAlbum: string) => {
+//   return fetch(`https://api.spotify.com/v1/albums/${currentAlbum}/tracks`, {
+//     method: "PUT",
+//     headers: {
+//       Authorization: `Bearer ${accessToken}`,
+//     },
+//     body: JSON.stringify({
+//       uris: [`spotify:album:${currentAlbum}`],
+//     }),
+//   });
+// };
+
+export const nextTrack = (accessToken: string, deviceId: string) => {
+  return fetch(`https://api.spotify.com/v1/me/player/next?device_id=${deviceId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+//https://api.spotify.com/v1/albums/{id}/tracks
+//https://open.spotify.com/playlist/37i9dQZF1DWXncK9DGeLh7?si=f3268d0933014f8e
+
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
   const [paused, setPaused] = React.useState(true);
   const [currentTrack, setCurrentTrack] = React.useState("");
+  const [currentAlbumId, setCurrentAlbumId] = React.useState("37i9dQZF1DWXncK9DGeLh7");
   const [deviceId, player] = useSpotifyPlayer(accessToken);
 
   // const [currentAlbum, setCurrentAlbum] = React.useState("7tB40pGzj6Tg0HePj2jWZt");
@@ -71,15 +98,24 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   if (!data) return <div>loading...</div>;
   const user = data;
 
+
   // console.log("ALBUMALBUM", getAlbum(accessToken, currentAlbum));
 
+  // nextTrack(accessToken, deviceId).then((nextTrackResponse) => 
+  // console.log(nextTrackResponse.json()));
+
+  // const testVar = nextTrack(accessToken, deviceId);
+  // console.log("===================",testVar);
+  //console.log("________________", await nextTrack(accessToken, deviceId));
+
+
   return (
-    <Layout isLoggedIn={true}>
+    <Layout isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
       <p>{currentTrack}</p>
       {/* //////////////////////////////////////////////////////////
-      ///// LE BOUTON EST DEPLACER DANS LE FOOTER + PLAYCOMPONENT////
+      ///// LE BOUTON EST DEPLACE DANS LE FOOTER + PLAYCOMPONENT////
       ////////////////////////////////////////////////////////// */}
       {/* <button
         onClick={() => {
@@ -88,6 +124,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       >
         {paused ? "play" : "stop"}
       </button> */}
+
       <button onClick={() => getAlbum(accessToken)}>Button</button>
       <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
     </Layout>

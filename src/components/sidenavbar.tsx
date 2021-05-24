@@ -1,5 +1,4 @@
 import React from "react";
-
 const SideBar: React.FC = () => {
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style={{ width: 230, height: 600 }}>
@@ -80,5 +79,4 @@ const SideBar: React.FC = () => {
     </div>
   );
 };
-
 export default SideBar;

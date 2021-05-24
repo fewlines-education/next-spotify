@@ -17,8 +17,7 @@ const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
           <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
             Search
           </button>
-
-          {isLoggedIn ? (
+        {isLoggedIn ? (
             <>
               <p>
                 <a href="/api/logout">logout</a>
@@ -26,7 +25,7 @@ const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
             </>
           ) : (
             <p>
-              <a href={spotifyLoginUrl}>login</a>
+              <a href={spotifyLoginUrl}>login</a> 
             </p>
           )}
         </form>
@@ -36,3 +35,4 @@ const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
 };
 
 export default NavBar;
+
