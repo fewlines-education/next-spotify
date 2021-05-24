@@ -1,49 +1,19 @@
 import React from "react";
 import Head from "next/head";
+import NavBar from "./NavBar";
 import SideBar from "./sidenavbar";
+import Footer from "./Footer";
 
 type Props = {
   isLoggedIn: boolean;
   spotifyLoginUrl?: string;
+  paused: boolean;
+  accessToken: string;
+  deviceId: string;
 };
 
-const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
-  return (
-    <>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-3">
-            SIDEBAR
-            <SideBar />
-          </div>
-          <div className="col-9">CHILDREN</div>
-        </div>
-        <div className="row">
-          <div className="col-12">FOOTER</div>
-        </div>
-      </div>
-
-      <nav>
-        <p>
-          <a href="/">Home</a>
-        </p>
-        {isLoggedIn ? (
-          <>
-            <p>
-              <a href="/api/logout">logout</a>
-            </p>
-          </>
-        ) : (
-          <p>
-            <a href={spotifyLoginUrl}>login</a>
-          </p>
-        )}
-      </nav>
-    </>
-  );
-};
-
-export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl }) => {
+//export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl }) => {
+  export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl, paused, accessToken, deviceId }) => {
   return (
     <>
       <Head>
@@ -60,8 +30,23 @@ export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl 
           crossOrigin="anonymous"
         ></script> */}
       </Head>
-      <NavBar isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl} />
-      <main>{children}</main>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-3">
+            SIDEBAR
+            <SideBar/>
+          </div>
+          <div className="col-9">
+          <NavBar isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl}/>
+            CHILDREN<main>{children}</main>
+          </div>
+        </div>
+        <div className="row">
+          <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
+        </div>
+      </div>
     </>
   );
 };
+
+export default Layout;
