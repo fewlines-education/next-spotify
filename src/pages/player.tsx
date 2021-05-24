@@ -19,7 +19,7 @@ export const play = (accessToken: string, deviceId: string) => {
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      uris: ["spotify:track:0DiWol3AO6WpXZgp0goxAV"],
+      uris: ["spotify:track:4FnWH9l7gxQmrNpfA5AZKP"],
     }),
   });
 };
@@ -32,6 +32,20 @@ export const pause = (accessToken: string, deviceId: string) => {
     },
   });
 };
+
+
+export const getAlbum = (accessToken: string) => {
+  return fetch(`https://api.spotify.com/v1/albums/7tB40pGzj6Tg0HePj2jWZt`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((album) => {
+    return album.json();
+  });
+};
+
 
 // export const nextTrack = (accessToken: string, currentAlbum: string) => {
 //   return fetch(`https://api.spotify.com/v1/albums/${currentAlbum}/tracks`, {
@@ -64,6 +78,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   const [currentAlbumId, setCurrentAlbumId] = React.useState("37i9dQZF1DWXncK9DGeLh7");
   const [deviceId, player] = useSpotifyPlayer(accessToken);
 
+  // const [currentAlbum, setCurrentAlbum] = React.useState("7tB40pGzj6Tg0HePj2jWZt");
   React.useEffect(() => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
@@ -83,12 +98,16 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   if (!data) return <div>loading...</div>;
   const user = data;
 
+
+  // console.log("ALBUMALBUM", getAlbum(accessToken, currentAlbum));
+
   // nextTrack(accessToken, deviceId).then((nextTrackResponse) => 
   // console.log(nextTrackResponse.json()));
 
   // const testVar = nextTrack(accessToken, deviceId);
   // console.log("===================",testVar);
   //console.log("________________", await nextTrack(accessToken, deviceId));
+
 
   return (
     <Layout isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
@@ -105,6 +124,9 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       >
         {paused ? "play" : "stop"}
       </button> */}
+
+      <button onClick={() => getAlbum(accessToken)}>Button</button>
+      <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
     </Layout>
   );
 };
