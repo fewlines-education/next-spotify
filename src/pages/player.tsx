@@ -5,25 +5,26 @@ import useSWR from "swr";
 import { Layout } from "../components/Layout";
 import React from "react";
 import { SpotifyState, SpotifyUser } from "../types/spotify";
+import Footer from "../components/Footer";
 
 interface Props {
   user: SpotifyUser;
   accessToken: string;
 }
 
-const play = (accessToken: string, deviceId: string) => {
+export const play = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      uris: ["spotify:track:1lCRw5FEZ1gPDNPzy1K4zW"],
+      uris: ["spotify:track:0DiWol3AO6WpXZgp0goxAV"],
     }),
   });
 };
 
-const pause = (accessToken: string, deviceId: string) => {
+export const pause = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/pause?device_id=${deviceId}`, {
     method: "PUT",
     headers: {
@@ -62,13 +63,17 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
       <p>{currentTrack}</p>
-      <button
+      {/* //////////////////////////////////////////////////////////
+      ///// LE BOUTON EST DEPLACER DANS LE FOOTER + PLAYCOMPONENT////
+      ////////////////////////////////////////////////////////// */}
+      {/* <button
         onClick={() => {
           paused ? play(accessToken, deviceId) : pause(accessToken, deviceId);
         }}
       >
-      {paused ? "play" : "stop"}
-      </button>
+        {paused ? "play" : "stop"}
+      </button> */}
+      <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
     </Layout>
   );
 };
