@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import SideBar from "./sidenavbar";
 
 type Props = {
   isLoggedIn: boolean;
@@ -8,22 +9,37 @@ type Props = {
 
 const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
   return (
-    <nav>
-      <p>
-        <a href="/">Home</a>
-      </p>
-      {isLoggedIn ? (
-        <>
-          <p>
-            <a href="/api/logout">logout</a>
-          </p>
-        </>
-      ) : (
+    <>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-3">
+            SIDEBAR
+            <SideBar />
+          </div>
+          <div className="col-9">CHILDREN</div>
+        </div>
+        <div className="row">
+          <div className="col-12">FOOTER</div>
+        </div>
+      </div>
+
+      <nav>
         <p>
-          <a href={spotifyLoginUrl}>login</a>
+          <a href="/">Home</a>
         </p>
-      )}
-    </nav>
+        {isLoggedIn ? (
+          <>
+            <p>
+              <a href="/api/logout">logout</a>
+            </p>
+          </>
+        ) : (
+          <p>
+            <a href={spotifyLoginUrl}>login</a>
+          </p>
+        )}
+      </nav>
+    </>
   );
 };
 
