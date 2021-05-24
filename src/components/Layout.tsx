@@ -10,7 +10,7 @@ const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
   return (
     <nav>
       <p>
-        <a href="/">home</a>
+        <a href="/">Home</a>
       </p>
       {isLoggedIn ? (
         <>
