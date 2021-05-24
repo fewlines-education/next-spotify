@@ -6,6 +6,7 @@ This is a NextJS App using:
 - [Spotify URIs](https://community.spotify.com/t5/Desktop-Windows/URI-Codes/td-p/4479486)
 
 ## Usage
+****
 
 ### Installation
 
