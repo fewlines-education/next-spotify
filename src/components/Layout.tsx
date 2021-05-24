@@ -3,7 +3,6 @@ import Head from "next/head";
 import NavBar from "./NavBar";
 import SideBar from "./sidenavbar";
 
-import NavBar from "./navbar";
 
 import Footer from "./Footer";
 

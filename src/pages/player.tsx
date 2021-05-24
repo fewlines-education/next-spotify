@@ -126,7 +126,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       </button> */}
 
       <button onClick={() => getAlbum(accessToken)}>Button</button>
-      <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
+      {/* <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} /> */}
     </Layout>
   );
 };
