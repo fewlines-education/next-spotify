@@ -1,90 +1,17 @@
 import React from "react";
+import { pause, play } from "../pages/player";
 
-const PlayComponent: React.FC = () => {
+const PlayComponent: React.FC<{ paused: boolean; accessToken: string; deviceId: string }> = (props) => {
   return (
     <div>
-      <link href="https://fonts.googleapis.com/css?family=Allerta" rel="stylesheet" />
-      <h2>Wellcome to Rofa Music store</h2>
-      <div className="container-audio">
-        <audio controls loop autoPlay>
-          <source
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9473/new_year_dubstep_minimix.ogg"
-            type="audio/ogg"
-          />
-          Your browser dose not Support the audio Tag
-        </audio>
-      </div>
-      {/* <div className="container-audio">
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div>
-        </div>
-        <div className="colum1">
-          <div className="row"></div> */}
-      {/* </div> */}
-      {/* </div> */}
+      <button
+        className={props.paused ? "button play" : "button pause"}
+        onClick={() => {
+          props.paused ? play(props.accessToken, props.deviceId) : pause(props.accessToken, props.deviceId);
+        }}
+      >
+        {props.paused ? "play" : "stop"}
+      </button>
     </div>
   );
 };
