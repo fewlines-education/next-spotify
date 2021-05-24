@@ -19,7 +19,7 @@ export const play = (accessToken: string, deviceId: string) => {
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      uris: ["spotify:track:0DiWol3AO6WpXZgp0goxAV"],
+      uris: ["spotify:track:4FnWH9l7gxQmrNpfA5AZKP"],
     }),
   });
 };
@@ -33,12 +33,25 @@ export const pause = (accessToken: string, deviceId: string) => {
   });
 };
 
+export const getAlbum = (accessToken: string) => {
+  return fetch(`https://api.spotify.com/v1/albums/7tB40pGzj6Tg0HePj2jWZt`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((album) => {
+    return album.json();
+  });
+};
+
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
   const [paused, setPaused] = React.useState(true);
   const [currentTrack, setCurrentTrack] = React.useState("");
   const [deviceId, player] = useSpotifyPlayer(accessToken);
 
+  // const [currentAlbum, setCurrentAlbum] = React.useState("7tB40pGzj6Tg0HePj2jWZt");
   React.useEffect(() => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
@@ -58,6 +71,8 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   if (!data) return <div>loading...</div>;
   const user = data;
 
+  // console.log("ALBUMALBUM", getAlbum(accessToken, currentAlbum));
+
   return (
     <Layout isLoggedIn={true}>
       <h1>Player</h1>
@@ -73,6 +88,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       >
         {paused ? "play" : "stop"}
       </button> */}
+      <button onClick={() => getAlbum(accessToken)}>Button</button>
       <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
     </Layout>
   );
