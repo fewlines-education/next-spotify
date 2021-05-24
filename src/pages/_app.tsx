@@ -10,6 +10,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     >
       <Component {...pageProps} />
     </SWRConfig>
+    // test
   );
 }
 
