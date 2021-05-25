@@ -93,6 +93,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   }, [player]);
 
   if (error) return <div>failed to load</div>;
+
   if (!data) return <div>loading...</div>;
   const user = data;
 
