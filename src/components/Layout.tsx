@@ -53,7 +53,7 @@ export const Layout: React.FC<Props> = ({
           </div>
           <div className="col-10">
             <NavBar isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl} />
-            CHILDREN<main>{children}</main>
+            <main className="mainBody">{children}</main>
           </div>
         </div>
         <div className="row">
