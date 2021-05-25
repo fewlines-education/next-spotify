@@ -126,6 +126,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
     </Layout>
   );
 };
+
 export default Player;
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<unknown> => {
