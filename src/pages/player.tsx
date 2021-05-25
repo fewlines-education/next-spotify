@@ -4,8 +4,7 @@ import Cookies from "cookies";
 import useSWR from "swr";
 import { Layout } from "../components/Layout";
 import React from "react";
-import { SpotifyState, SpotifyUser } from "../types/spotify";
-import { pathToFileURL } from "url";
+import { SpotifyState, SpotifyTrack, SpotifyUser } from "../types/spotify";
 import Album from "../components/Album";
 
 interface Props {
@@ -13,30 +12,24 @@ interface Props {
   accessToken: string;
 }
 
-// type AlbumType = {
-//   id: string;
-//   image: string;
-//   title: string; result.name
-//   soundTimeMs: number; result.tracks.items.map((track) => track.duration_ms).reduce((a,b) => a + b);
-//   tracksNb: number; result.total_tracks
-//   tracks: Track[];
-// };
 type AlbumType = {
   id: string;
   image: string;
   title: string;
-  // soundTimeMs: number;
+  soundTimeMs: number;
   tracksNb: number;
-  // tracks: Track[];
+  tracks: Track[];
 };
 
+
 type Track = {
-  // id: string; track.id
-  // title: string; track.name
-  // numberInList: number; track.track_number
-  // soundTimeMs: number;  track.duration_ms
-  // artist: string; result.artists[0].name
+  id: string;
+  name: string;
+  numberInList: number;
+  soundTimeMs: number;
+  artist: string;
 };
+
 
 export const play = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
@@ -59,32 +52,6 @@ export const pause = (accessToken: string, deviceId: string) => {
   });
 };
 
-
-export const getAlbum = (accessToken: string) => {
-  return fetch(`https://api.spotify.com/v1/albums/7tB40pGzj6Tg0HePj2jWZt`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }).then((album) => {
-    return album.json();
-  });
-};
-
-
-// export const nextTrack = (accessToken: string, currentAlbum: string) => {
-//   return fetch(`https://api.spotify.com/v1/albums/${currentAlbum}/tracks`, {
-//     method: "PUT",
-//     headers: {
-//       Authorization: `Bearer ${accessToken}`,
-//     },
-//     body: JSON.stringify({
-//       uris: [`spotify:album:${currentAlbum}`],
-//     }),
-//   });
-// };
-
 export const nextTrack = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/next?device_id=${deviceId}`, {
     method: "POST",
@@ -94,24 +61,39 @@ export const nextTrack = (accessToken: string, deviceId: string) => {
   });
 };
 
-//https://api.spotify.com/v1/albums/{id}/tracks
-//https://open.spotify.com/playlist/37i9dQZF1DWXncK9DGeLh7?si=f3268d0933014f8e
-
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
   const [paused, setPaused] = React.useState(true);
-  const [currentTrack, setCurrentTrack] = React.useState("");
+  const [currentTrack, setCurrentTrack] = React.useState<any|null>(null);
+
+
+const trackArray: Track[] = [
+  {
+    id: "12345",
+    name: "Toto",
+    numberInList: 59,
+    soundTimeMs: 15000,
+    artist: "Tata",
+  }
+]
+
   const tempAlbum: AlbumType = {
     id: "37i9dQZF1DWXncK9DGeLh7",
     image: "https://i.scdn.co/image/ab67616d00001e029db4d4e3550dd76488583195",
     title: "Album gratuit, vol. 6",
+    soundTimeMs: 100000,
     tracksNb: 13,
+    tracks: trackArray,
   };
-  const [currentAlbum, setCurrentAlbum] = React.useState(tempAlbum);
+
+  const [currentAlbum, setCurrentAlbum] = React.useState<any|null>(null);
+  const [currentAlbumShortInfo, setCurrentAlbumShortInfo] = React.useState<any|null>(null);
   const [deviceId, player] = useSpotifyPlayer(accessToken);
+  const [currentTrackId, setCurrentTrackId] = React.useState();
+  const [currentAlbumId, setCurrentAlbumId] = React.useState<any|null>(null);
 
   const album = async (accessToken: string) => {
-    return await fetch(`https://api.spotify.com/v1/albums/5lKlFlReHOLShQKyRv6AL9`, {
+    return await fetch(`https://api.spotify.com/v1/albums/${currentAlbumId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -122,27 +104,25 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       .then((result) => {
         setCurrentAlbum({
           id: result.id,
-          image: result.images.url[1],
+          image: result.images && result.images.url ? result.images.url[1] : "emptyImageUrl",
           title: result.name,
+          soundTimeMs: result.tracks ? result.tracks.items.map((track: any) => track.duration_ms).reduce((a: any,b: any) => a + b) : 120000,
           tracksNb: result.total_tracks,
+          tracks: result.tracks ? result.tracks.items : trackArray,
         });
       });
   };
 
-  // type AlbumType = {
-  //   id: string;
-  //   image: string;
-  //   title: string; result.name
-  //   soundTimeMs: number; result.tracks.items.map((track) => track.duration_ms).reduce((a,b) => a + b);
-  //   tracksNb: number; result.total_tracks
-  //   tracks: Track[];
-  // };
-  // const [currentAlbum, setCurrentAlbum] = React.useState("7tB40pGzj6Tg0HePj2jWZt");
+
   React.useEffect(() => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
-      setCurrentTrack(state.track_window.current_track.name);
+      const spotifyTrack: SpotifyTrack = state.track_window.current_track;
+      setCurrentTrack(spotifyTrack);
+      setCurrentAlbumShortInfo(spotifyTrack.album);
+      setCurrentAlbumId(spotifyTrack.album.uri.split(":")[2])
     };
+
     if (player) {
       player.addListener("player_state_changed", playerStateChanged);
     }
@@ -151,47 +131,29 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         player.removeListener("player_state_changed", playerStateChanged);
       }
     };
-  }, [player]);
+  }, [player,currentTrackId, currentAlbumId, currentTrack, currentAlbum, currentAlbumShortInfo]);
 
   if (error) return <div>failed to load</div>;
 
   if (!data) return <div>loading...</div>;
   const user = data;
-  album(accessToken);
-
-  // console.log("ALBUMALBUM", getAlbum(accessToken, currentAlbum));
-
-  // nextTrack(accessToken, deviceId).then((nextTrackResponse) =>
-  // console.log(nextTrackResponse.json()));
-
-  // const testVar = nextTrack(accessToken, deviceId);
-  // console.log("===================",testVar);
-  //console.log("________________", await nextTrack(accessToken, deviceId));
 
   return (
     <Layout currentTrack={currentTrack} isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
-      <p>{currentTrack}</p>
+      <p>Track : {currentTrack ? currentTrack.name : "not yet"}</p>
+      <p>Album : {currentTrack ? currentTrack.album.name: "not yet"}</p>
+      <p>Album : {currentAlbumShortInfo ? currentAlbumShortInfo.name : "not yet"}</p>
       <Album
-        id={currentAlbum.id}
-        image={currentAlbum.image}
-        title={currentAlbum.title}
-        tracksNb={currentAlbum.tracksNb}
+        id={currentAlbumShortInfo ? currentAlbumShortInfo.uri.split(":")[2] : tempAlbum.id}
+        image={currentAlbumShortInfo && currentAlbumShortInfo.images && currentAlbumShortInfo.images[0].url ? currentAlbumShortInfo.images[0].url : tempAlbum.image}
+        title={currentAlbumShortInfo ? currentAlbumShortInfo.name : tempAlbum.title}
+        tracksNb={currentAlbum ? currentAlbum.tracksNb : tempAlbum.tracksNb}
+        soundTimeMs={currentAlbum ? currentAlbum.soundTimeMs : tempAlbum.soundTimeMs}
+        tracks={currentAlbum ? currentAlbum.tracks : tempAlbum.tracks}
       />
-      {/* //////////////////////////////////////////////////////////
-      ///// LE BOUTON EST DEPLACE DANS LE FOOTER + PLAYCOMPONENT////
-      ////////////////////////////////////////////////////////// */}
-      {/* <button
-        onClick={() => {
-          paused ? play(accessToken, deviceId) : pause(accessToken, deviceId);
-        }}
-      >
-        {paused ? "play" : "stop"}
-      </button> */}
       <button onClick={() => album(accessToken)}>Button</button>
-      <img src={`${album}`} alt="" />
-      {/* <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} /> */}
     </Layout>
   );
 };

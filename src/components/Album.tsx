@@ -4,18 +4,18 @@ type AlbumType = {
   id: string;
   image: string;
   title: string;
-  // soundTimeMs: number;
+  soundTimeMs: number;
   tracksNb: number;
-  // tracks: Track[];
+  tracks: Track[];
 };
 
-// type Track = {
-//   id: string;
-//   title: string;
-//   numberInList: number;
-//   soundTimeMs: number;
-//   artist: string;
-// };
+type Track = {
+  id: string;
+  name: string;
+  numberInList: number;
+  soundTimeMs: number;
+  artist: string;
+};
 
 const Album: React.FC<AlbumType> = (props) => {
   return (
@@ -23,6 +23,13 @@ const Album: React.FC<AlbumType> = (props) => {
       <h1>{props.title}</h1>
       <img src={props.image} />
       <p>nombre de titre : {props.tracksNb}</p>
+      <p>Liste des titres : </p>
+      <ul>
+        { props.tracks ? props.tracks.map((track, i) => 
+        <li key= {i}>{track.name }</li>) : "no tracks"
+        }
+      </ul>
+      <p>soundTimeMs: {props.soundTimeMs}</p>
     </div>
   );
 };
