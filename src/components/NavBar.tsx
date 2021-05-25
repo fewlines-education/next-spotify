@@ -7,32 +7,36 @@ type Props = {
 
 const NavBar: React.FC<Props> = ({ isLoggedIn, spotifyLoginUrl }) => {
   return (
-    <>
-      <nav className="navbar navbar-light bg-light">
-        <a className="navbar-brand" href="/">
-          Home
-        </a>
-        <form className="form-inline">
-          <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-          <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        {isLoggedIn ? (
-            <>
-              <p>
-                <a href="/api/logout">logout</a>
-              </p>
-            </>
-          ) : (
-            <p>
-              <a href={spotifyLoginUrl}>login</a> 
-            </p>
-          )}
-        </form>
-      </nav>
-    </>
+    <nav className="navbar navbar-expand-lg navbar-light ">
+      <div className="container-fluid">
+        <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <form className="d-flex">
+            <input
+              className="form-control me-2"
+              type="search"
+              placeholder="Artistes, titres ou podcasts"
+              aria-label="Search"
+            />
+          </form>
+          <span>
+            {isLoggedIn ? (
+              <i className="logoLogin fa fa-user-circle-o" aria-hidden="true">
+                <a className="login" href="/api/logout">
+                  logout
+                </a>
+              </i>
+            ) : (
+              <i className="logoLogin fa fa-user-circle-o" aria-hidden="true">
+                <a className="login" href={spotifyLoginUrl}>
+                  login
+                </a>
+              </i>
+            )}
+          </span>
+        </div>
+      </div>
+    </nav>
   );
 };
 
 export default NavBar;
-

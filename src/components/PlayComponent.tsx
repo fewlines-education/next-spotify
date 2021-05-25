@@ -3,7 +3,7 @@ import { pause, play } from "../pages/player";
 
 const PlayComponent: React.FC<{ paused: boolean; accessToken: string; deviceId: string }> = (props) => {
   return (
-    <div className="PlayComponent">
+    <footer className="PlayComponent">
       <i className="ButtonNextLeft fa fa-step-backward" aria-hidden="true"></i>
 
       <span
@@ -20,7 +20,7 @@ const PlayComponent: React.FC<{ paused: boolean; accessToken: string; deviceId: 
       </span>
 
       <i className="ButtonNextRight fa fa-step-forward" aria-hidden="true"></i>
-    </div>
+    </footer>
   );
 };
 

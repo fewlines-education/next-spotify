@@ -9,8 +9,8 @@
   width: 30px;
   height: 30px;
   border-width: 14px 0px 14px 28px; */
-  /* border-color: transparent transparent transparent #202020; */
-  /* background-color: white;
+/* border-color: transparent transparent transparent #202020; */
+/* background-color: white;
   border-color: transparent transparent transparent white;
   background-color: #202020;
 
@@ -50,46 +50,42 @@
       border-width: 0px 0 0px 60px;
     } */
 
+.listeSideBar {
+  margin-top: 1rem;
+}
+.listemenu {
+  color: white;
+}
+.PlayComponent {
+  text-align: center;
+}
+.footerleft {
+  text-align: center;
+}
+.footerright {
+  text-align: center;
+}
 
+.MenuName {
+  font-family: "Lato", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  margin-left: 0.8rem;
+}
+.imageSpotify {
+  height: 2.5rem;
+  width: 8.5rem;
+  margin-top: 1.4rem;
+}
 
-    .listeSideBar{
-      margin-top: 1rem;
-    }
-    .listemenu{
-      color: white;
-    }
-    .PlayComponent{
-      text-align: center;
-    }
-    .footerleft{
-      text-align: center;
-    }
-    .footerright{
-      text-align: center;
-    }
+.ButtonPlayAndPause {
+  font-size: 1.9rem;
+}
 
-    .MenuName{
-      font-family: 'Lato', sans-serif;
-      font-family: 'Montserrat', sans-serif;
-      margin-left: 0.8rem;
-    }
-    .imageSpotify{
-      height: 2.5rem;
-      width: 8.5rem;
-      margin-top: 1.4rem;
-    }
-
-  .ButtonPlayAndPause{
-    font-size: 1.9rem;
-  }
-
-
-.ButtonNextRight{
+.ButtonNextRight {
   font-size: 1.3rem;
   margin-left: 2rem;
-  
 }
-.ButtonNextLeft{
+.ButtonNextLeft {
   font-size: 1.4rem;
   padding-right: 2rem;
 }
@@ -99,13 +95,39 @@ container-fluid {
 }
 
 body {
-  background-color: #212629;
+  background-color: #121212;
   color: white;
-  font-style:italic;
+  font-family: "Lato", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-
 .sideBar {
-  background-color: black;
+  background-color: #000000;
+  height: 47rem;
+}
 
+.login {
+  padding-left: 0.8rem;
+}
+
+.form-control {
+  border-radius: 3rem;
+  width: 23rem;
+}
+
+.logoLogin {
+  padding-left: 47rem;
+}
+
+.navbar {
+  margin-top: 0.2rem;
+  position: fixed;
+}
+
+.mainBody {
+  margin-top: 5rem;
+}
+
+.d-flex {
+  background-color: black;
 }
