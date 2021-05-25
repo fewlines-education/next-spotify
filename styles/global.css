@@ -1,34 +1,34 @@
-.button.play {
+/* .button.play {
   width: 30px;
   height: 30px;
   border-style: solid;
   border-width: 14px;
-  /* border-color: #202020; */
+  border-color: #202020;
   border-color: white;
   box-sizing: border-box;
   width: 30px;
   height: 30px;
-  border-width: 14px 0px 14px 28px;
-  /* border-color: transparent transparent transparent #202020; */
-  /* background-color: white; */
+  border-width: 14px 0px 14px 28px; */
+/* border-color: transparent transparent transparent #202020; */
+/* background-color: white;
   border-color: transparent transparent transparent white;
   background-color: #202020;
-}
+
 .button.pause {
   text-align: center;
   width: 30px;
   height: 30px;
   border-style: solid;
   border-width: 15px;
-  /* border-color: #202020; */
+  border-color: #202020;
   border-color: white;
   border-style: double;
   border-width: 0px 15px 0px 15px;
   border-width: 0px 0px 0px 15px;
   background-color: #202020;
   border-color: white;
-  /* border-color: #202020;
-  background-color: white; */
+  border-color: #202020;
+  background-color: white;
 }
 /* 
   .button {
@@ -50,11 +50,84 @@
       border-width: 0px 0 0px 60px;
     } */
 
+.listeSideBar {
+  margin-top: 1rem;
+}
+.listemenu {
+  color: white;
+}
+.PlayComponent {
+  text-align: center;
+}
+.footerleft {
+  text-align: center;
+}
+.footerright {
+  text-align: center;
+}
+
+.MenuName {
+  font-family: "Lato", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  margin-left: 0.8rem;
+}
+.imageSpotify {
+  height: 2.5rem;
+  width: 8.5rem;
+  margin-top: 1.4rem;
+}
+
+.ButtonPlayAndPause {
+  font-size: 1.9rem;
+}
+
+.ButtonNextRight {
+  font-size: 1.3rem;
+  margin-left: 2rem;
+}
+.ButtonNextLeft {
+  font-size: 1.4rem;
+  padding-right: 2rem;
+}
+
 container-fluid {
   height: 100vh;
 }
 
 body {
-  background-color: #212629;
+  background-color: #121212;
   color: white;
+  font-family: "Lato", sans-serif;
+  font-family: "Montserrat", sans-serif;
+}
+
+.sideBar {
+  background-color: #000000;
+  height: 47rem;
+}
+
+.login {
+  padding-left: 0.8rem;
+}
+
+.form-control {
+  border-radius: 3rem;
+  width: 23rem;
+}
+
+.logoLogin {
+  padding-left: 47rem;
+}
+
+.navbar {
+  margin-top: 0.2rem;
+  position: fixed;
+}
+
+.mainBody {
+  margin-top: 5rem;
+}
+
+.d-flex {
+  background-color: black;
 }

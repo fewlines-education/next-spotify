@@ -5,17 +5,24 @@ import SideBar from "./sidenavbar";
 
 import Footer from "./Footer";
 
-
 type Props = {
   isLoggedIn: boolean;
   spotifyLoginUrl?: string;
   paused: boolean;
   accessToken: string;
   deviceId: string;
+  currentTrack: string;
 };
 
-
-  export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl, paused, accessToken, deviceId }) => {
+export const Layout: React.FC<Props> = ({
+  children,
+  isLoggedIn,
+  spotifyLoginUrl,
+  paused,
+  accessToken,
+  deviceId,
+  currentTrack,
+}) => {
   return (
     <>
       <Head>
@@ -27,31 +34,30 @@ type Props = {
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
           crossOrigin="anonymous"
         ></link>
-        {/* <script
-          src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-          integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-          crossOrigin="anonymous"
-        ></script>
-        <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
-          integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
-          crossOrigin="anonymous"
-        ></script> */}
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@600&display=swap"
+          rel="stylesheet"
+        />
       </Head>
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-3">
-            SIDEBAR
-            <SideBar/>
+          <div className="sideBar col-2">
+            <SideBar />
           </div>
-          <div className="col-9">
-          <NavBar isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl}/>
-            CHILDREN<main>{children}</main>
+          <div className="col-10">
+            <NavBar isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl} />
+            <main className="mainBody">{children}</main>
           </div>
         </div>
         <div className="row">
-          <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
+          <Footer currentTrack={currentTrack} paused={paused} accessToken={accessToken} deviceId={deviceId} />
         </div>
       </div>
     </>

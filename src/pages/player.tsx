@@ -52,7 +52,6 @@ export const pause = (accessToken: string, deviceId: string) => {
   });
 };
 
-
 export const nextTrack = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/next?device_id=${deviceId}`, {
     method: "POST",
@@ -135,11 +134,12 @@ const trackArray: Track[] = [
   }, [player,currentTrackId, currentAlbumId, currentTrack, currentAlbum, currentAlbumShortInfo]);
 
   if (error) return <div>failed to load</div>;
+
   if (!data) return <div>loading...</div>;
   const user = data;
 
   return (
-    <Layout isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
+    <Layout currentTrack={currentTrack} isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
       <p>Track : {currentTrack ? currentTrack.name : "not yet"}</p>
@@ -157,6 +157,7 @@ const trackArray: Track[] = [
     </Layout>
   );
 };
+
 export default Player;
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<unknown> => {
