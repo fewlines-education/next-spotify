@@ -11,9 +11,18 @@ type Props = {
   paused: boolean;
   accessToken: string;
   deviceId: string;
+  currentTrack: string;
 };
 
-export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl, paused, accessToken, deviceId }) => {
+export const Layout: React.FC<Props> = ({
+  children,
+  isLoggedIn,
+  spotifyLoginUrl,
+  paused,
+  accessToken,
+  deviceId,
+  currentTrack,
+}) => {
   return (
     <>
       <Head>
@@ -39,7 +48,7 @@ export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl,
 
       <div className="container-fluid">
         <div className="row">
-          <div className="col-2">
+          <div className="sideBar col-2">
             <SideBar />
           </div>
           <div className="col-10">
@@ -48,7 +57,7 @@ export const Layout: React.FC<Props> = ({ children, isLoggedIn, spotifyLoginUrl,
           </div>
         </div>
         <div className="row">
-          <Footer paused={paused} accessToken={accessToken} deviceId={deviceId} />
+          <Footer currentTrack={currentTrack} paused={paused} accessToken={accessToken} deviceId={deviceId} />
         </div>
       </div>
     </>
