@@ -59,6 +59,20 @@ export const pause = (accessToken: string, deviceId: string) => {
   });
 };
 
+
+export const getAlbum = (accessToken: string) => {
+  return fetch(`https://api.spotify.com/v1/albums/7tB40pGzj6Tg0HePj2jWZt`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((album) => {
+    return album.json();
+  });
+};
+
+
 // export const nextTrack = (accessToken: string, currentAlbum: string) => {
 //   return fetch(`https://api.spotify.com/v1/albums/${currentAlbum}/tracks`, {
 //     method: "PUT",
@@ -140,6 +154,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   }, [player]);
 
   if (error) return <div>failed to load</div>;
+
   if (!data) return <div>loading...</div>;
   const user = data;
   album(accessToken);
@@ -154,7 +169,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   //console.log("________________", await nextTrack(accessToken, deviceId));
 
   return (
-    <Layout isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
+    <Layout currentTrack={currentTrack} isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
       <p>{currentTrack}</p>
@@ -180,6 +195,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
     </Layout>
   );
 };
+
 export default Player;
 
 export const getServerSideProps = async (context: GetServerSidePropsContext): Promise<unknown> => {

@@ -5,14 +5,25 @@ import { Layout } from "../components/Layout";
 
 type IndexProps = {
   spotifyLoginUrl?: string;
+  paused: boolean;
+  accessToken: string;
+  deviceId: string;
+  currentTrack: string;
 };
 
-const Index: React.FC<IndexProps> = ({ spotifyLoginUrl }) => {
+const Index: React.FC<IndexProps> = ({ spotifyLoginUrl, paused, accessToken, deviceId, currentTrack }) => {
   const { data } = useSWR("/api/get-user-info");
   const user = data;
 
   return (
-    <Layout isLoggedIn={user !== undefined} spotifyLoginUrl={spotifyLoginUrl}>
+    <Layout
+      currentTrack={currentTrack}
+      accessToken={accessToken}
+      deviceId={deviceId}
+      paused={paused}
+      isLoggedIn={user !== undefined}
+      spotifyLoginUrl={spotifyLoginUrl}
+    >
       <h1>Home page</h1>
       <p>{user && user.display_name}</p>
     </Layout>

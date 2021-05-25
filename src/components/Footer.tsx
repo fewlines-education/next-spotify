@@ -1,7 +1,7 @@
 import React from "react";
 import PlayComponent from "./PlayComponent";
 
-const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string }> = (props) => {
+const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string; currentTrack: string }> = (props) => {
   return (
     // <div className="footer fixed-bottom">
     //   <footer>
@@ -29,12 +29,13 @@ const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string 
     //   {/* Called of font style  file */}
     // </div>
     <>
-      <div className="col-3">this is the first text</div>
-      <div className="col-6 justify-content-center">
-        this is the second text
+      <div className="footerleft col-3">
+        <p>{props.currentTrack}</p>
+      </div>
+      <div className="footermidle col-6">
         <PlayComponent paused={props.paused} accessToken={props.accessToken} deviceId={props.deviceId} />
       </div>
-      <div className="col-3">this is the third text</div>
+      <div className="footerright col-3">this is the third text</div>
     </>
   );
 };
