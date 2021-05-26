@@ -13,6 +13,7 @@ type Props = {
   deviceId: string;
   currentTrackId: string;
   currentTrackName: string;
+  trackId: string;
 };
 
 export const Layout: React.FC<Props> = ({
@@ -24,6 +25,7 @@ export const Layout: React.FC<Props> = ({
   deviceId,
   currentTrackId,
   currentTrackName,
+  trackId,
 }) => {
   return (
     <>
@@ -60,8 +62,14 @@ export const Layout: React.FC<Props> = ({
         </div>
 
         <div className="row">
-          <Footer currentTrackId={currentTrackId} currentTrackName={currentTrackName} paused={paused} accessToken={accessToken} deviceId={deviceId} />
-
+          <Footer
+            currentTrackId={currentTrackId}
+            currentTrackName={currentTrackName}
+            paused={paused}
+            accessToken={accessToken}
+            deviceId={deviceId}
+            trackId={trackId}
+          />
         </div>
       </div>
     </>

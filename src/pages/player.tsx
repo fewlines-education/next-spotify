@@ -12,14 +12,14 @@ interface Props {
   accessToken: string;
 }
 
-export const play = (accessToken: string, deviceId: string) => {
+export const play = (accessToken: string, deviceId: string, trackId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
-      uris: ["spotify:track:4FnWH9l7gxQmrNpfA5AZKP"],
+      uris: [`spotify:track:${trackId}`],
     }),
   });
 };
@@ -56,8 +56,6 @@ const Player: NextPage<Props> = ({ accessToken }) => {
 
   const [paused, setPaused] = React.useState(true);
 
-  const [currentTrack, setCurrentTrack] = React.useState<any | null>(null);
-
   const [nextTrack, setNextTrack] = React.useState<SpotifyTrack[]>();
   const [previousTrack, setPreviousTrack] = React.useState<SpotifyTrack[]>();
 
@@ -72,7 +70,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   ];
 
   const [deviceId, player] = useSpotifyPlayer(accessToken);
-  const [currentTrackId, setCurrentTrackId] = React.useState("");
+  const [currentTrackId, setCurrentTrackId] = React.useState("4VqPOruhp5EdPBeR92t6lQ");
   const [currentTrackName, setCurrentTrackName] = React.useState("");
   const [currentTrackDuration_Ms, setCurrentTrackDuration_Ms] = React.useState(0);
   const [currentTrackArtistsIds, setCurrentTrackArtistsIds] = React.useState([""]);
@@ -81,6 +79,10 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   const [currentAlbumImage, setCurrentAlbumImage] = React.useState("");
   const [currentAlbumDuration_Ms, setCurrentAlbumDuration_Ms] = React.useState(0);
   const [currentAlbumTrackList, setCurrentAlbumTrackList] = React.useState([]);
+
+  const setTrackIdByChild = (trackId: string) => {
+    setCurrentTrackId(trackId);
+  };
 
   const album = async (accessToken: string, idOfAlbum: string) => {
     return await fetch(`https://api.spotify.com/v1/albums/${idOfAlbum}`, {
@@ -131,7 +133,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       const spotifyNextTrack: SpotifyTrack[] = state.track_window.next_tracks;
       const spotifyPreviousTrack: SpotifyTrack[] = state.track_window.previous_tracks;
 
-      setCurrentTrack(spotifyTrack.name);
+      //setCurrentTrack(spotifyTrack.name);
 
       setCurrentAlbumId(spotifyTrack.album.uri.split(":")[2]);
       setNextTrack(
@@ -175,8 +177,8 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       paused={paused}
       accessToken={accessToken}
       deviceId={deviceId}
+      trackId={currentTrackId}
     >
-      <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
       <p>Track : {currentTrackName}</p>
       <p>Album : {currentAlbumName}</p>
@@ -186,6 +188,10 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         name={currentAlbumName}
         duration_ms={currentAlbumDuration_Ms}
         tracks={currentAlbumTrackList}
+        fn={setTrackIdByChild}
+        deviceId={deviceId}
+        paused={paused}
+        accessToken={accessToken}
       />
       <button onClick={() => track(accessToken, currentTrackId)}>Button Track</button>
       <button onClick={() => album(accessToken, currentAlbumId)}>Button Album</button>

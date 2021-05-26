@@ -4,6 +4,9 @@ type AlbumType = {
   name: string;
   duration_ms: number;
   tracks: Track[];
+  paused: boolean;
+  accessToken: string;
+  deviceId: string;
 };
 
 type Track = {

@@ -1,9 +1,14 @@
 import React from "react";
 import PlayComponent from "./PlayComponent";
 
-
-const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string; currentTrackId: string; currentTrackName: string }> = (props) => {
-
+const Footer: React.FC<{
+  paused: boolean;
+  accessToken: string;
+  deviceId: string;
+  currentTrackId: string;
+  currentTrackName: string;
+  trackId: string;
+}> = (props) => {
   return (
     <>
       <div className="footerleft col-3">
@@ -11,7 +16,12 @@ const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string;
         <p>{props.currentTrackName}</p>
       </div>
       <div className="footermidle col-6">
-        <PlayComponent paused={props.paused} accessToken={props.accessToken} deviceId={props.deviceId} />
+        <PlayComponent
+          paused={props.paused}
+          accessToken={props.accessToken}
+          deviceId={props.deviceId}
+          trackId={props.trackId}
+        />
       </div>
       <div className="footerright col-3">this is the third text</div>
     </>
