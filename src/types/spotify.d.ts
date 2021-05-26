@@ -1,7 +1,7 @@
 // Keep in mind that this has been make from studying a console.log output
 // Don't put too much faith in it
 
-type SpotifyTrack = {
+export type SpotifyTrack = {
   id: string;
   uri: string;
   type: "track" | "album" | "artist" | "user";
@@ -67,4 +67,9 @@ export type SpotifyUser = {
   product?: string;
   type?: string;
   uri?: string;
+};
+
+export type SpotifyArtist = {
+  name: string;
+  uri: string;
 };
