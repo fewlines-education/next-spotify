@@ -33,8 +33,17 @@ export const pause = (accessToken: string, deviceId: string) => {
   });
 };
 
-export const nextTrack = (accessToken: string, deviceId: string) => {
+export const nextTrackButton = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/next?device_id=${deviceId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export const previousTrackButton = (accessToken: string, deviceId: string) => {
+  return fetch(`https://api.spotify.com/v1/me/player/previous?device_id=${deviceId}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -46,6 +55,12 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
 
   const [paused, setPaused] = React.useState(true);
+
+  const [currentTrack, setCurrentTrack] = React.useState<any | null>(null);
+  
+  const [nextTrack, setNextTrack] = React.useState<SpotifyTrack[]>();
+  const [previousTrack, setPreviousTrack] = React.useState<SpotifyTrack[]>();
+
 
   const trackArray: Track[] = [
     {
@@ -114,8 +129,28 @@ const Player: NextPage<Props> = ({ accessToken }) => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
 
+      const spotifyTrack: SpotifyTrack = state.track_window.current_track;
+      const spotifyNextTrack: SpotifyTrack[] = state.track_window.next_tracks;
+      const spotifyPreviousTrack: SpotifyTrack[] = state.track_window.previous_tracks;
+
+      setCurrentTrack(spotifyTrack.name);
+      setCurrentAlbumShortInfo(spotifyTrack.album);
+      setCurrentAlbumId(spotifyTrack.album.uri.split(":")[2]);
+      setNextTrack(
+        spotifyNextTrack.map((track) => {
+          return track;
+        }),
+      );
+      setPreviousTrack(
+        spotifyPreviousTrack.map((track) => {
+          return track;
+        }),
+      );
+
+
       setCurrentTrackId(state.track_window.current_track.id);
       setCurrentAlbumId(state.track_window.current_track.album.uri.split(":")[2]);
+
     };
 
     if (player) {
@@ -126,7 +161,9 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         player.removeListener("player_state_changed", playerStateChanged);
       }
     };
-  }, [player, currentAlbumId, currentTrackId]);
+
+  }, [nextTrack, previousTrack, player, currentAlbumId, currentTrackId]);
+
 
   if (error) return <div>failed to load</div>;
 

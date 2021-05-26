@@ -1,10 +1,18 @@
 import React from "react";
-import { pause, play } from "../pages/player";
+import { pause, play, nextTrackButton, previousTrackButton } from "../pages/player";
 
-const PlayComponent: React.FC<{ paused: boolean; accessToken: string; deviceId: string }> = (props) => {
+const PlayComponent: React.FC<{
+  paused: boolean;
+  accessToken: string;
+  deviceId: string;
+}> = (props) => {
   return (
     <footer className="PlayComponent">
-      <i className="ButtonNextLeft fa fa-step-backward" aria-hidden="true"></i>
+      <i
+        onClick={() => previousTrackButton(props.accessToken, props.deviceId)}
+        className="ButtonNextLeft fa fa-step-backward"
+        aria-hidden="true"
+      ></i>
 
       <span
         className="ButtonPlayAndPause"
@@ -19,7 +27,11 @@ const PlayComponent: React.FC<{ paused: boolean; accessToken: string; deviceId: 
         )}
       </span>
 
-      <i className="ButtonNextRight fa fa-step-forward" aria-hidden="true"></i>
+      <i
+        className="ButtonNextRight fa fa-step-forward"
+        aria-hidden="true"
+        onClick={() => nextTrackButton(props.accessToken, props.deviceId)}
+      ></i>
     </footer>
   );
 };

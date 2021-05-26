@@ -58,8 +58,10 @@ export const Layout: React.FC<Props> = ({
             <main className="mainBody">{children}</main>
           </div>
         </div>
+
         <div className="row">
           <Footer currentTrackId={currentTrackId} currentTrackName={currentTrackName} paused={paused} accessToken={accessToken} deviceId={deviceId} />
+
         </div>
       </div>
     </>
