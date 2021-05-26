@@ -4,30 +4,13 @@ import Cookies from "cookies";
 import useSWR from "swr";
 import { Layout } from "../components/Layout";
 import React from "react";
-import { SpotifyState, SpotifyTrack, SpotifyUser } from "../types/spotify";
+import { SpotifyState, SpotifyTrack, SpotifyUser, SpotifyArtist } from "../types/spotify";
 import Album from "../components/Album";
 
 interface Props {
   user: SpotifyUser;
   accessToken: string;
 }
-
-type AlbumType = {
-  id: string;
-  image: string;
-  title: string;
-  soundTimeMs: number;
-  tracksNb: number;
-  tracks: Track[];
-};
-
-type Track = {
-  id: string;
-  name: string;
-  numberInList: number;
-  soundTimeMs: number;
-  artist: string;
-};
 
 export const play = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
@@ -70,40 +53,39 @@ export const previousTrackButton = (accessToken: string, deviceId: string) => {
 
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
+
   const [paused, setPaused] = React.useState(true);
+
   const [currentTrack, setCurrentTrack] = React.useState<any | null>(null);
-  const [currentTrack2, setCurrentTrack2] = React.useState<any | null>(null);
+  
   const [nextTrack, setNextTrack] = React.useState<SpotifyTrack[]>();
   const [previousTrack, setPreviousTrack] = React.useState<SpotifyTrack[]>();
+
 
   const trackArray: Track[] = [
     {
       id: "12345",
       name: "Toto",
-      numberInList: 59,
-      soundTimeMs: 15000,
-      artist: "Tata",
+      duration_ms: 15000,
+      artistsIds: ["123"],
+      albumId: "GJFHZRK9820947",
     },
   ];
 
-  const tempAlbum: AlbumType = {
-    id: "37i9dQZF1DWXncK9DGeLh7",
-    image: "https://i.scdn.co/image/ab67616d00001e029db4d4e3550dd76488583195",
-    title: "Album gratuit, vol. 6",
-    soundTimeMs: 100000,
-    tracksNb: 13,
-    tracks: trackArray,
-  };
-
-  const [currentAlbum, setCurrentAlbum] = React.useState<any | null>(null);
-  const [currentAlbumShortInfo, setCurrentAlbumShortInfo] = React.useState<any | null>(null);
+  const [paused, setPaused] = React.useState(true);
   const [deviceId, player] = useSpotifyPlayer(accessToken);
-  const [currentTrackId, setCurrentTrackId] = React.useState();
-
+  const [currentTrackId, setCurrentTrackId] = React.useState("");
+  const [currentTrackName, setCurrentTrackName] = React.useState("");
+  const [currentTrackDuration_Ms, setCurrentTrackDuration_Ms] = React.useState(0);
+  const [currentTrackArtistsIds, setCurrentTrackArtistsIds] = React.useState([""]);
   const [currentAlbumId, setCurrentAlbumId] = React.useState<any | null>(null);
+  const [currentAlbumName, setCurrentAlbumName] = React.useState("");
+  const [currentAlbumImage, setCurrentAlbumImage] = React.useState("");
+  const [currentAlbumDuration_Ms, setCurrentAlbumDuration_Ms] = React.useState(0);
+  const [currentAlbumTrackList, setCurrentAlbumTrackList] = React.useState([]);
 
-  const album = async (accessToken: string) => {
-    return await fetch(`https://api.spotify.com/v1/albums/${currentAlbumId}`, {
+  const album = async (accessToken: string, idOfAlbum: string) => {
+    return await fetch(`https://api.spotify.com/v1/albums/${idOfAlbum}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -112,22 +94,41 @@ const Player: NextPage<Props> = ({ accessToken }) => {
     })
       .then((response) => response.json())
       .then((result) => {
-        setCurrentAlbum({
-          id: result.id,
-          image: result.images && result.images.url ? result.images.url[1] : "emptyImageUrl",
-          title: result.name,
-          soundTimeMs: result.tracks
+        setCurrentAlbumName(result.name);
+        setCurrentAlbumImage(result.images ? result.images[1].url : "emptyImageUrl");
+        setCurrentAlbumDuration_Ms(
+          result.tracks
             ? result.tracks.items.map((track: any) => track.duration_ms).reduce((a: any, b: any) => a + b)
             : 120000,
-          tracksNb: result.total_tracks,
-          tracks: result.tracks ? result.tracks.items : trackArray,
-        });
+        );
+        setCurrentAlbumTrackList(result.tracks ? result.tracks.items : trackArray);
+      });
+  };
+
+  const track = async (accessToken: string, idOfTrack: string) => {
+    return await fetch(`https://api.spotify.com/v1/tracks/${idOfTrack}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        const spotifyArtistsIdsExtracted: string[] = result.artists ? result.artists.map(
+          (artist: SpotifyArtist) => artist.uri.split(":")[2],
+        ) : [""];
+        setCurrentTrackName(result.name);
+        setCurrentTrackDuration_Ms(result.duration_ms);
+        setCurrentTrackArtistsIds(spotifyArtistsIdsExtracted);
+        setCurrentAlbumId(result.album ? result.album.uri.split(":")[2]: "123");
       });
   };
 
   React.useEffect(() => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
+
       const spotifyTrack: SpotifyTrack = state.track_window.current_track;
       const spotifyNextTrack: SpotifyTrack[] = state.track_window.next_tracks;
       const spotifyPreviousTrack: SpotifyTrack[] = state.track_window.previous_tracks;
@@ -145,6 +146,11 @@ const Player: NextPage<Props> = ({ accessToken }) => {
           return track;
         }),
       );
+
+
+      setCurrentTrackId(state.track_window.current_track.id);
+      setCurrentAlbumId(state.track_window.current_track.album.uri.split(":")[2]);
+
     };
 
     if (player) {
@@ -155,42 +161,40 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         player.removeListener("player_state_changed", playerStateChanged);
       }
     };
-  }, [
-    player,
-    currentTrackId,
-    currentAlbumId,
-    currentTrack,
-    currentAlbum,
-    currentAlbumShortInfo,
-    nextTrack,
-    previousTrack,
-  ]);
+
+  }, [nextTrack, previousTrack, player, currentAlbumId, currentTrackId]);
+
 
   if (error) return <div>failed to load</div>;
 
   if (!data) return <div>loading...</div>;
   const user = data;
 
+  // const currentAlbum: AlbumType = await album(accessToken, currentAlbumId);
+  // const currentTrack: Track = track(accessToken, currentTrackId);
+
   return (
-    <Layout currentTrack={currentTrack} isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
+    <Layout
+      currentTrackId={currentTrackId}
+      currentTrackName={currentTrackName}
+      isLoggedIn={true}
+      paused={paused}
+      accessToken={accessToken}
+      deviceId={deviceId}
+    >
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
-      <p>Track : {currentTrack ? currentTrack : "not yet"}</p>
-      {/* <p>Album : {currentTrack ? currentTrack.album : "not yet"}</p> */}
-      <p>Album : {currentAlbumShortInfo ? currentAlbumShortInfo.name : "not yet"}</p>
+      <p>Track : {currentTrackName}</p>
+      <p>Album : {currentAlbumName}</p>
       <Album
-        id={currentAlbumShortInfo ? currentAlbumShortInfo.uri.split(":")[2] : tempAlbum.id}
-        image={
-          currentAlbumShortInfo && currentAlbumShortInfo.images && currentAlbumShortInfo.images[0].url
-            ? currentAlbumShortInfo.images[0].url
-            : tempAlbum.image
-        }
-        title={currentAlbumShortInfo ? currentAlbumShortInfo.name : tempAlbum.title}
-        tracksNb={currentAlbum ? currentAlbum.tracksNb : tempAlbum.tracksNb}
-        soundTimeMs={currentAlbum ? currentAlbum.soundTimeMs : tempAlbum.soundTimeMs}
-        tracks={currentAlbum ? currentAlbum.tracks : tempAlbum.tracks}
+        id={currentAlbumId}
+        image={currentAlbumImage}
+        name={currentAlbumName}
+        duration_ms={currentAlbumDuration_Ms}
+        tracks={currentAlbumTrackList}
       />
-      <button onClick={() => album(accessToken)}>Button</button>
+      <button onClick={() => track(accessToken, currentTrackId)}>Button Track</button>
+      <button onClick={() => album(accessToken, currentAlbumId)}>Button Album</button>
     </Layout>
   );
 };
