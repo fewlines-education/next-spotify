@@ -57,10 +57,9 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   const [paused, setPaused] = React.useState(true);
 
   const [currentTrack, setCurrentTrack] = React.useState<any | null>(null);
-  
+
   const [nextTrack, setNextTrack] = React.useState<SpotifyTrack[]>();
   const [previousTrack, setPreviousTrack] = React.useState<SpotifyTrack[]>();
-
 
   const trackArray: Track[] = [
     {
@@ -72,7 +71,6 @@ const Player: NextPage<Props> = ({ accessToken }) => {
     },
   ];
 
-  const [paused, setPaused] = React.useState(true);
   const [deviceId, player] = useSpotifyPlayer(accessToken);
   const [currentTrackId, setCurrentTrackId] = React.useState("");
   const [currentTrackName, setCurrentTrackName] = React.useState("");
@@ -115,13 +113,13 @@ const Player: NextPage<Props> = ({ accessToken }) => {
     })
       .then((response) => response.json())
       .then((result) => {
-        const spotifyArtistsIdsExtracted: string[] = result.artists ? result.artists.map(
-          (artist: SpotifyArtist) => artist.uri.split(":")[2],
-        ) : [""];
+        const spotifyArtistsIdsExtracted: string[] = result.artists
+          ? result.artists.map((artist: SpotifyArtist) => artist.uri.split(":")[2])
+          : [""];
         setCurrentTrackName(result.name);
         setCurrentTrackDuration_Ms(result.duration_ms);
         setCurrentTrackArtistsIds(spotifyArtistsIdsExtracted);
-        setCurrentAlbumId(result.album ? result.album.uri.split(":")[2]: "123");
+        setCurrentAlbumId(result.album ? result.album.uri.split(":")[2] : "123");
       });
   };
 
@@ -134,7 +132,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       const spotifyPreviousTrack: SpotifyTrack[] = state.track_window.previous_tracks;
 
       setCurrentTrack(spotifyTrack.name);
-      setCurrentAlbumShortInfo(spotifyTrack.album);
+
       setCurrentAlbumId(spotifyTrack.album.uri.split(":")[2]);
       setNextTrack(
         spotifyNextTrack.map((track) => {
@@ -147,10 +145,8 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         }),
       );
 
-
       setCurrentTrackId(state.track_window.current_track.id);
       setCurrentAlbumId(state.track_window.current_track.album.uri.split(":")[2]);
-
     };
 
     if (player) {
@@ -161,9 +157,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         player.removeListener("player_state_changed", playerStateChanged);
       }
     };
-
   }, [nextTrack, previousTrack, player, currentAlbumId, currentTrackId]);
-
 
   if (error) return <div>failed to load</div>;
 
