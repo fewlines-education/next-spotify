@@ -45,6 +45,8 @@ export const nextTrack = (accessToken: string, deviceId: string) => {
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
 
+  const [paused, setPaused] = React.useState(true);
+
   const trackArray: Track[] = [
     {
       id: "12345",
@@ -54,15 +56,6 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       albumId: "GJFHZRK9820947",
     },
   ];
-
-  // const tempAlbum: AlbumType = {
-  //   id: "37i9dQZF1DWXncK9DGeLh7",
-  //   image: "https://i.scdn.co/image/ab67616d00001e029db4d4e3550dd76488583195",
-  //   name: "Album gratuit, vol. 6",
-  //   duration_ms: 100000,
-  //   tracksNb: 13,
-  //   tracks: trackArray,
-  // };
 
   const [paused, setPaused] = React.useState(true);
   const [deviceId, player] = useSpotifyPlayer(accessToken);
