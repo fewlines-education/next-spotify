@@ -24,11 +24,7 @@ const Album: React.FC<AlbumType> = (props) => {
       <img src={props.image} />
       <p>nombre de titre : {props.tracksNb}</p>
       <p>Liste des titres : </p>
-      <ul>
-        { props.tracks ? props.tracks.map((track, i) => 
-        <li key= {i}>{track.name }</li>) : "no tracks"
-        }
-      </ul>
+      <ul>{props.tracks ? props.tracks.map((track, i) => <li key={i}>{track.name}</li>) : "no tracks"}</ul>
       <p>soundTimeMs: {props.soundTimeMs}</p>
     </div>
   );
