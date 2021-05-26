@@ -21,7 +21,6 @@ type AlbumType = {
   tracks: Track[];
 };
 
-
 type Track = {
   id: string;
   name: string;
@@ -29,7 +28,6 @@ type Track = {
   soundTimeMs: number;
   artist: string;
 };
-
 
 export const play = (accessToken: string, deviceId: string) => {
   return fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
@@ -64,18 +62,18 @@ export const nextTrack = (accessToken: string, deviceId: string) => {
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
   const [paused, setPaused] = React.useState(true);
-  const [currentTrack, setCurrentTrack] = React.useState<any|null>(null);
+  const [currentTrack, setCurrentTrack] = React.useState<any | null>(null);
+  const [currentTrack2, setCurrentTrack2] = React.useState<any | null>(null);
 
-
-const trackArray: Track[] = [
-  {
-    id: "12345",
-    name: "Toto",
-    numberInList: 59,
-    soundTimeMs: 15000,
-    artist: "Tata",
-  }
-]
+  const trackArray: Track[] = [
+    {
+      id: "12345",
+      name: "Toto",
+      numberInList: 59,
+      soundTimeMs: 15000,
+      artist: "Tata",
+    },
+  ];
 
   const tempAlbum: AlbumType = {
     id: "37i9dQZF1DWXncK9DGeLh7",
@@ -86,11 +84,12 @@ const trackArray: Track[] = [
     tracks: trackArray,
   };
 
-  const [currentAlbum, setCurrentAlbum] = React.useState<any|null>(null);
-  const [currentAlbumShortInfo, setCurrentAlbumShortInfo] = React.useState<any|null>(null);
+  const [currentAlbum, setCurrentAlbum] = React.useState<any | null>(null);
+  const [currentAlbumShortInfo, setCurrentAlbumShortInfo] = React.useState<any | null>(null);
   const [deviceId, player] = useSpotifyPlayer(accessToken);
   const [currentTrackId, setCurrentTrackId] = React.useState();
-  const [currentAlbumId, setCurrentAlbumId] = React.useState<any|null>(null);
+
+  const [currentAlbumId, setCurrentAlbumId] = React.useState<any | null>(null);
 
   const album = async (accessToken: string) => {
     return await fetch(`https://api.spotify.com/v1/albums/${currentAlbumId}`, {
@@ -106,21 +105,22 @@ const trackArray: Track[] = [
           id: result.id,
           image: result.images && result.images.url ? result.images.url[1] : "emptyImageUrl",
           title: result.name,
-          soundTimeMs: result.tracks ? result.tracks.items.map((track: any) => track.duration_ms).reduce((a: any,b: any) => a + b) : 120000,
+          soundTimeMs: result.tracks
+            ? result.tracks.items.map((track: any) => track.duration_ms).reduce((a: any, b: any) => a + b)
+            : 120000,
           tracksNb: result.total_tracks,
           tracks: result.tracks ? result.tracks.items : trackArray,
         });
       });
   };
 
-
   React.useEffect(() => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
       const spotifyTrack: SpotifyTrack = state.track_window.current_track;
-      setCurrentTrack(spotifyTrack);
+      setCurrentTrack(spotifyTrack.name);
       setCurrentAlbumShortInfo(spotifyTrack.album);
-      setCurrentAlbumId(spotifyTrack.album.uri.split(":")[2])
+      setCurrentAlbumId(spotifyTrack.album.uri.split(":")[2]);
     };
 
     if (player) {
@@ -131,7 +131,7 @@ const trackArray: Track[] = [
         player.removeListener("player_state_changed", playerStateChanged);
       }
     };
-  }, [player,currentTrackId, currentAlbumId, currentTrack, currentAlbum, currentAlbumShortInfo]);
+  }, [player, currentTrackId, currentAlbumId, currentTrack, currentAlbum, currentAlbumShortInfo]);
 
   if (error) return <div>failed to load</div>;
 
@@ -142,12 +142,16 @@ const trackArray: Track[] = [
     <Layout currentTrack={currentTrack} isLoggedIn={true} paused={paused} accessToken={accessToken} deviceId={deviceId}>
       <h1>Player</h1>
       <p>Welcome {user && user.display_name}</p>
-      <p>Track : {currentTrack ? currentTrack.name : "not yet"}</p>
-      <p>Album : {currentTrack ? currentTrack.album.name: "not yet"}</p>
+      <p>Track : {currentTrack ? currentTrack : "not yet"}</p>
+      {/* <p>Album : {currentTrack ? currentTrack.album : "not yet"}</p> */}
       <p>Album : {currentAlbumShortInfo ? currentAlbumShortInfo.name : "not yet"}</p>
       <Album
         id={currentAlbumShortInfo ? currentAlbumShortInfo.uri.split(":")[2] : tempAlbum.id}
-        image={currentAlbumShortInfo && currentAlbumShortInfo.images && currentAlbumShortInfo.images[0].url ? currentAlbumShortInfo.images[0].url : tempAlbum.image}
+        image={
+          currentAlbumShortInfo && currentAlbumShortInfo.images && currentAlbumShortInfo.images[0].url
+            ? currentAlbumShortInfo.images[0].url
+            : tempAlbum.image
+        }
         title={currentAlbumShortInfo ? currentAlbumShortInfo.name : tempAlbum.title}
         tracksNb={currentAlbum ? currentAlbum.tracksNb : tempAlbum.tracksNb}
         soundTimeMs={currentAlbum ? currentAlbum.soundTimeMs : tempAlbum.soundTimeMs}
