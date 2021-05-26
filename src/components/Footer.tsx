@@ -1,7 +1,7 @@
 import React from "react";
 import PlayComponent from "./PlayComponent";
 
-const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string; currentTrack: string }> = (props) => {
+const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string; currentTrackId: string; currentTrackName: string }> = (props) => {
   return (
     // <div className="footer fixed-bottom">
     //   <footer>
@@ -30,7 +30,8 @@ const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string;
     // </div>
     <>
       <div className="footerleft col-3">
-        <p>{props.currentTrack}</p>
+        {/* <p>{props.currentTrackId}</p> */}
+        <p>{props.currentTrackName}</p>
       </div>
       <div className="footermidle col-6">
         <PlayComponent paused={props.paused} accessToken={props.accessToken} deviceId={props.deviceId} />
