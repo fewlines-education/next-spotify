@@ -1,9 +1,13 @@
 import React from "react";
 import PlayComponent from "./PlayComponent";
 
-
-const Footer: React.FC<{ paused: boolean; accessToken: string; deviceId: string; currentTrackId: string; currentTrackName: string }> = (props) => {
-
+const Footer: React.FC<{
+  paused: boolean;
+  accessToken: string;
+  deviceId: string;
+  currentTrackId: string;
+  currentTrackName: string;
+}> = (props) => {
   return (
     <>
       <div className="footerleft col-3">
