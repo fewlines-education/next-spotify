@@ -8,13 +8,18 @@ const Album: React.FC<AlbumType> = (props) => {
       <p>nombre de titres : {props.tracks.length}</p>
       <p>Liste des titres : </p>
 
-      <ul>
-        { props.tracks ? props.tracks.map((track, i) => 
-        <li key= {i}>{track.name }</li>) : "no tracks"
-        }
-      </ul>
-      <p>soundTimeMs: {props.duration_ms}</p>
+      <ul>{props.tracks ? props.tracks.map((track, i) => <li key={i}>{track.name}</li>) : "no tracks"}</ul>
 
+      {Math.floor((props.duration_ms / (1000 * 60 * 60)) % 24) >= 1 ? (
+        <p>
+          {Math.floor((props.duration_ms / (1000 * 60 * 60)) % 24)} h {Math.floor(props.duration_ms / (1000 * 60)) % 60}{" "}
+          min
+        </p>
+      ) : (
+        <p>
+          {Math.floor(props.duration_ms / 60000)} min {((props.duration_ms % 60000) / 1000).toFixed(0)} s
+        </p>
+      )}
     </div>
   );
 };
