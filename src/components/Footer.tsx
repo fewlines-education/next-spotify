@@ -15,34 +15,30 @@ const Footer: React.FC<{
   const [volume, setVolume] = React.useState<number>(0);
   return (
     <>
-      <div className="footerleft col-3">
-        {/* <p>{props.currentTrackId}</p> */}
+    < footer className="fixed-bottom w-100 greenSF" style={{height: 110}}>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-3 d-none d-md-block">
+          chanson
         <p>{props.currentTrackName}</p>
-      </div>
-      <div className="footermidle col-6">
-        <PlayComponent
-          songPosition={props.songPosition}
-          paused={props.paused}
+
+        </div>
+        <div className="col-md-6 col-12">
+          <PlayComponent
+d={props.paused}
           accessToken={props.accessToken}
           deviceId={props.deviceId}
           trackId={props.trackId}
         />
-      </div>
-      <div className="footerright col-3">
-        <label className="form-label" htmlFor="customRange1">
-          Volume
-        </label>
-        <div className="range">
-          <input
-            onClick={() => volumeSlider(props.accessToken, volume, props.deviceId)}
-            value={volume}
-            type="range"
-            className="form-range"
-            id="customRange1"
-            onChange={(e) => setVolume(parseInt(e.target.value))}
-          />
+        </div>
+        <div className="col-md-3 d-none d-md-block">
+          volume
         </div>
       </div>
+      </div>
+
+      </footer>
+
     </>
   );
 };
