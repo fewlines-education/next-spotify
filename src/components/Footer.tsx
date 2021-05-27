@@ -7,6 +7,7 @@ const Footer: React.FC<{
   deviceId: string;
   currentTrackId: string;
   currentTrackName: string;
+  trackId: string;
 }> = (props) => {
   return (
     <>
@@ -15,7 +16,12 @@ const Footer: React.FC<{
         <p>{props.currentTrackName}</p>
       </div>
       <div className="footermidle col-6">
-        <PlayComponent paused={props.paused} accessToken={props.accessToken} deviceId={props.deviceId} />
+        <PlayComponent
+          paused={props.paused}
+          accessToken={props.accessToken}
+          deviceId={props.deviceId}
+          trackId={props.trackId}
+        />
       </div>
       <div className="footerright col-3">this is the third text</div>
     </>

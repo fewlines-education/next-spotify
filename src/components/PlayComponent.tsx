@@ -5,6 +5,7 @@ const PlayComponent: React.FC<{
   paused: boolean;
   accessToken: string;
   deviceId: string;
+  trackId: string;
 }> = (props) => {
   return (
     <footer className="PlayComponent">
@@ -17,7 +18,9 @@ const PlayComponent: React.FC<{
       <span
         className="ButtonPlayAndPause"
         onClick={() => {
-          props.paused ? play(props.accessToken, props.deviceId) : pause(props.accessToken, props.deviceId);
+          props.paused
+            ? play(props.accessToken, props.deviceId, props.trackId)
+            : pause(props.accessToken, props.deviceId);
         }}
       >
         {props.paused ? (
