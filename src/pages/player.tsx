@@ -51,6 +51,24 @@ export const previousTrackButton = (accessToken: string, deviceId: string) => {
   });
 };
 
+export const volumeSlider = (accessToken: string, volumePercent: number, deviceId: string) => {
+  return fetch(`https://api.spotify.com/v1/me/player/volume?volume_percent=${volumePercent}&device_id=${deviceId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
+export const songSlider = (accessToken: string, positionMs: number, deviceId: string) => {
+  return fetch(`https://api.spotify.com/v1/me/player/seek?position_ms=${positionMs}&device_id=${deviceId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
 
@@ -125,6 +143,9 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       });
   };
 
+  const [maxDuration, setMaxDuration] = React.useState<number>();
+  const [songPosition, setSongPosition] = React.useState<number>(0);
+
   React.useEffect(() => {
     const playerStateChanged = (state: SpotifyState) => {
       setPaused(state.paused);
@@ -149,6 +170,8 @@ const Player: NextPage<Props> = ({ accessToken }) => {
 
       setCurrentTrackId(state.track_window.current_track.id);
       setCurrentAlbumId(state.track_window.current_track.album.uri.split(":")[2]);
+      setSongPosition(state.position);
+      setMaxDuration(state.track_window.current_track.duration_ms);
     };
 
     if (player) {
@@ -159,7 +182,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
         player.removeListener("player_state_changed", playerStateChanged);
       }
     };
-  }, [nextTrack, previousTrack, player, currentAlbumId, currentTrackId]);
+  }, [nextTrack, previousTrack, player, currentAlbumId, currentTrackId, songPosition, maxDuration]);
 
   if (error) return <div>failed to load</div>;
 
@@ -171,6 +194,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
 
   return (
     <Layout
+      songPosition={songPosition}
       currentTrackId={currentTrackId}
       currentTrackName={currentTrackName}
       isLoggedIn={true}
@@ -182,6 +206,24 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       <p>Welcome {user && user.display_name}</p>
       <p>Track : {currentTrackName}</p>
       <p>Album : {currentAlbumName}</p>
+      <div className="footerright col-3">
+        <label className="form-label" htmlFor="customRange1">
+          Position
+        </label>
+        <div className="range">
+          <input
+            onClick={() => songSlider(accessToken, songPosition, deviceId)}
+            value={songPosition}
+            min={0}
+            max={maxDuration}
+            step="1000"
+            type="range"
+            className="form-range"
+            id="customRange1"
+            onChange={(e) => setSongPosition(parseInt(e.target.value))}
+          />
+        </div>
+      </div>
       <Album
         id={currentAlbumId}
         image={currentAlbumImage}
