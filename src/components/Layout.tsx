@@ -54,7 +54,7 @@ export const Layout: React.FC<Props> = ({
             <SideBar />
           </div>
           <div className="col-10">
-            <NavBar isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl} />
+            <NavBar accessToken={accessToken} isLoggedIn={isLoggedIn} spotifyLoginUrl={spotifyLoginUrl} />
             <main className="mainBody">{children}</main>
           </div>
         </div>
