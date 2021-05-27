@@ -16,6 +16,7 @@ type Props = {
 
   currentTrack: string;
   songPosition: number;
+  currentAlbumSmallImage: string;
 };
 export const Layout: React.FC<Props> = ({
   children,
@@ -28,6 +29,7 @@ export const Layout: React.FC<Props> = ({
   currentTrackName,
   trackId,
   songPosition,
+  currentAlbumSmallImage,
 }) => {
   return (
     <>
@@ -73,6 +75,7 @@ export const Layout: React.FC<Props> = ({
         accessToken={accessToken}
         deviceId={deviceId}
         trackId={trackId}
+        currentAlbumSmallImage={currentAlbumSmallImage}
       />
     </>
   );
