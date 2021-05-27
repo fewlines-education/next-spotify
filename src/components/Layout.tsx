@@ -13,7 +13,6 @@ type Props = {
   currentTrackId: string;
   currentTrackName: string;
   trackId: string;
-  currentTrack: string;
 };
 
 export const Layout: React.FC<Props> = ({
@@ -48,6 +47,8 @@ export const Layout: React.FC<Props> = ({
           href="https://fonts.googleapis.com/css2?family=Lato:wght@900&family=Montserrat:wght@600&display=swap"
           rel="stylesheet"
         />
+        <title>Better Spotify</title>
+        <link rel="icon" type="image/png" href="/images/faviconSpotify.png" />
       </Head>
 
       <div className="container-fluid">
@@ -60,8 +61,7 @@ export const Layout: React.FC<Props> = ({
             <main className="mainBody">{children}</main>
           </div>
         </div>
-
-        <div className="row">
+</div>
           <Footer
             currentTrackId={currentTrackId}
             currentTrackName={currentTrackName}
@@ -70,8 +70,7 @@ export const Layout: React.FC<Props> = ({
             deviceId={deviceId}
             trackId={trackId}
           />
-        </div>
-      </div>
+
     </>
   );
 };

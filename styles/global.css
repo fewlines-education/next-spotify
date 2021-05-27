@@ -1,55 +1,3 @@
-/* .button.play {
-  width: 30px;
-  height: 30px;
-  border-style: solid;
-  border-width: 14px;
-  border-color: #202020;
-  border-color: white;
-  box-sizing: border-box;
-  width: 30px;
-  height: 30px;
-  border-width: 14px 0px 14px 28px; */
-/* border-color: transparent transparent transparent #202020; */
-/* background-color: white;
-  border-color: transparent transparent transparent white;
-  background-color: #202020;
-
-.button.pause {
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  border-style: solid;
-  border-width: 15px;
-  border-color: #202020;
-  border-color: white;
-  border-style: double;
-  border-width: 0px 15px 0px 15px;
-  border-width: 0px 0px 0px 15px;
-  background-color: #202020;
-  border-color: white;
-  border-color: #202020;
-  background-color: white;
-}
-/* 
-  .button {
-    box-sizing: border-box;
-    height: 74px;
-    
-    border-color: transparent transparent transparent #202020;
-    transition: 100ms all ease;
-    will-change: border-width;
-    cursor: pointer;
-  
-
-    border-style: solid;
-    border-width: 37px 0 37px 60px;
-   background-color: white;
-
-  }.pause {
-      border-style: double;
-      border-width: 0px 0 0px 60px;
-    } */
-
 ul {
   list-style: none;
 }
@@ -81,17 +29,21 @@ ul {
 }
 
 .ButtonPlayAndPause {
-  font-size: 1.9rem;
+  font-size: 3.4rem;
 }
 
-.ButtonNextRight {
-  font-size: 1.3rem;
-  margin-left: 2rem;
-}
-.ButtonNextLeft {
+.ButtonNextRight,
+.ButtonRepeat,
+.ButtonNextLeft,
+.ButtonRandom {
   font-size: 1.4rem;
-  padding-right: 2rem;
+  margin-top: 1.9rem;
 }
+
+/* .ButtonNextLeft {
+  font-size: 1.4rem;
+  margin-top: 1.9rem;
+} */
 
 container-fluid {
   height: 100vh;
@@ -109,17 +61,9 @@ body {
   height: 47rem;
 }
 
-.login {
-  padding-left: 0.8rem;
-}
-
 .form-control {
   border-radius: 3rem;
   width: 23rem;
-}
-
-.logoLogin {
-  padding-left: 47rem;
 }
 
 .navbar {
@@ -134,3 +78,16 @@ body {
 .d-flex {
   background-color: black;
 }
+.greenSF {
+  background-color: #1ab954;
+}
+
+.player {
+  text-align: center;
+}
+/* .FirstRow {
+  margin-top: 1rem;
+}
+.SecondRow {
+  margin-top: 1rem;
+} */

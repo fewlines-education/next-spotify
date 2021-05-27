@@ -11,19 +11,27 @@ const Footer: React.FC<{
 }> = (props) => {
   return (
     <>
-      <div className="footerleft col-3">
-        {/* <p>{props.currentTrackId}</p> */}
+    < footer className="fixed-bottom w-100 greenSF" style={{height: 110}}>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-3 d-none d-md-block">
+          chanson
         <p>{props.currentTrackName}</p>
-      </div>
-      <div className="footermidle col-6">
-        <PlayComponent
+        </div>
+        <div className="col-md-6 col-12">
+          <PlayComponent
           paused={props.paused}
           accessToken={props.accessToken}
           deviceId={props.deviceId}
           trackId={props.trackId}
         />
+        </div>
+        <div className="col-md-3 d-none d-md-block">
+          volume
+        </div>
       </div>
-      <div className="footerright col-3">this is the third text</div>
+      </div>
+      </footer>
     </>
   );
 };
