@@ -16,6 +16,7 @@ type Props = {
   currentTrack: string;
   songPosition: number;
   maxDuration: number;
+  currentAlbumSmallImage: string;
 };
 
 export const Layout: React.FC<Props> = ({
@@ -30,6 +31,7 @@ export const Layout: React.FC<Props> = ({
   trackId,
   songPosition,
   maxDuration,
+  currentAlbumSmallImage,
 }) => {
   return (
     <>
@@ -77,6 +79,7 @@ export const Layout: React.FC<Props> = ({
         trackId={trackId}
         volumePercent={songPosition}
         maxDuration={maxDuration}
+        currentAlbumSmallImage={currentAlbumSmallImage}
       />
     </>
   );

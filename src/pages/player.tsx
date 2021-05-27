@@ -95,6 +95,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
   const [currentAlbumId, setCurrentAlbumId] = React.useState<any | null>(null);
   const [currentAlbumName, setCurrentAlbumName] = React.useState("");
   const [currentAlbumImage, setCurrentAlbumImage] = React.useState("");
+  const [currentAlbumSmallImage, setCurrentAlbumSmallImage] = React.useState("");
   const [currentAlbumDuration_Ms, setCurrentAlbumDuration_Ms] = React.useState(0);
   const [currentAlbumTrackList, setCurrentAlbumTrackList] = React.useState([]);
 
@@ -114,6 +115,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       .then((result) => {
         setCurrentAlbumName(result.name);
         setCurrentAlbumImage(result.images ? result.images[1].url : "emptyImageUrl");
+        setCurrentAlbumSmallImage(result.images ? result.images[2].url : "emptyImageUrl");
         setCurrentAlbumDuration_Ms(
           result.tracks
             ? result.tracks.items.map((track: any) => track.duration_ms).reduce((a: any, b: any) => a + b)
@@ -203,6 +205,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       deviceId={deviceId}
       trackId={currentTrackId}
       maxDuration={maxDuration}
+      currentAlbumSmallImage={currentAlbumSmallImage}
     >
       <p>Welcome {user && user.display_name}</p>
       <p>Track : {currentTrackName}</p>

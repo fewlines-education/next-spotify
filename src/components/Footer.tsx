@@ -8,6 +8,7 @@ const Footer: React.FC<{
   deviceId: string;
   currentTrackId: string;
   currentTrackName: string;
+  currentAlbumSmallImage: string;
   trackId: string;
   volumePercent: number;
   songPosition: number;
@@ -19,8 +20,9 @@ const Footer: React.FC<{
       <footer className="fixed-bottom w-100 greenSF" style={{ height: 110 }}>
         <div className="container-fluid">
           <div className="row">
-            <div className="col-md-3 d-none d-md-block">
-              chanson
+            <div className="col-md-1 d-none d-md-block">
+              <img className="FooterAlignMiddleImage" src={props.currentAlbumSmallImage}/></div>
+            <div className="col-md-2 d-none d-md-block FooterAlignMiddleText">
               <p>{props.currentTrackName}</p>
             </div>
             <div className="col-md-6 col-12">
@@ -33,20 +35,23 @@ const Footer: React.FC<{
                 maxDuration={props.maxDuration}
               />
             </div>
-            <div className="col-md-3 d-none d-md-block">
-              <label className="form-label" htmlFor="customRange1">
-                Volume
+            <div className="col-md-1 d-none d-md-block"><i className="fa fa-volume-up FooterAlignMiddleVolumeIcon"/></div>
+            <div className="col-md-2 d-none d-md-block">
+              
+              <label className="form-label" htmlFor="customRange3">
               </label>
-              <div className="range">
+              <div className="range FooterAlignMiddleVolume">
                 <input
                   onClick={() => volumeSlider(props.accessToken, volume, props.deviceId)}
                   value={volume}
                   type="range"
                   className="form-range"
-                  id="customRange1"
+                  id="customRange3"
                   onChange={(e) => setVolume(parseInt(e.target.value))}
                 />
               </div>
+              {/* <div className="col-md-1 d-none d-md-block">
+              <i className="fa fa-volume-up"/></div> */}
             </div>
           </div>
         </div>
