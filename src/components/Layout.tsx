@@ -2,7 +2,6 @@ import React from "react";
 import Head from "next/head";
 import NavBar from "./NavBar";
 import SideBar from "./sidenavbar";
-
 import Footer from "./Footer";
 
 type Props = {
@@ -14,6 +13,7 @@ type Props = {
   currentTrackId: string;
   currentTrackName: string;
   trackId: string;
+  currentTrack: string;
 };
 
 export const Layout: React.FC<Props> = ({
