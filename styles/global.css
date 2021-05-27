@@ -40,6 +40,25 @@ ul {
   margin-top: 1.9rem;
 }
 
+.FooterAlignMiddleImage {
+  margin-top: 1.5rem;
+}
+
+.FooterAlignMiddleText {
+  font-size: 1.4rem;
+  margin-top: 2.8rem;
+}
+
+.FooterAlignMiddleVolume {
+  font-size: 1.4rem;
+  margin-top: 1.8rem;
+}
+.FooterAlignMiddleVolumeIcon {
+  font-size: 1.4rem;
+  margin-top: 3.3rem;
+  margin-left: 3rem;
+}
+
 /* .ButtonNextLeft {
   font-size: 1.4rem;
   margin-top: 1.9rem;
