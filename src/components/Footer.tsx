@@ -30,7 +30,21 @@ const Footer: React.FC<{
                 trackId={props.trackId}
               />
             </div>
-            <div className="col-md-3 d-none d-md-block">volume</div>
+            <div className="col-md-3 d-none d-md-block">
+              <label className="form-label" htmlFor="customRange1">
+                Volume
+              </label>
+              <div className="range">
+                <input
+                  onClick={() => volumeSlider(props.accessToken, volume, props.deviceId)}
+                  value={volume}
+                  type="range"
+                  className="form-range"
+                  id="customRange1"
+                  onChange={(e) => setVolume(parseInt(e.target.value))}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </footer>
