@@ -13,10 +13,11 @@ type Props = {
   currentTrackId: string;
   currentTrackName: string;
   trackId: string;
-
   currentTrack: string;
   songPosition: number;
+  maxDuration: number;
 };
+
 export const Layout: React.FC<Props> = ({
   children,
   isLoggedIn,
@@ -28,6 +29,7 @@ export const Layout: React.FC<Props> = ({
   currentTrackName,
   trackId,
   songPosition,
+  maxDuration,
 }) => {
   return (
     <>
@@ -53,10 +55,9 @@ export const Layout: React.FC<Props> = ({
         <title>Better Spotify</title>
         <link rel="icon" type="image/png" href="/images/faviconSpotify.png" />
       </Head>
-
       <div className="container-fluid">
         <div className="row">
-          <div className="sideBar col-2">
+          <div className="col-2">
             <SideBar />
           </div>
           <div className="col-10">
@@ -65,6 +66,7 @@ export const Layout: React.FC<Props> = ({
           </div>
         </div>
       </div>
+
       <Footer
         songPosition={songPosition}
         currentTrackId={currentTrackId}
@@ -73,6 +75,8 @@ export const Layout: React.FC<Props> = ({
         accessToken={accessToken}
         deviceId={deviceId}
         trackId={trackId}
+        volumePercent={songPosition}
+        maxDuration={maxDuration}
       />
     </>
   );

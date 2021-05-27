@@ -7,6 +7,7 @@ const PlayComponent: React.FC<{
   deviceId: string;
   trackId: string;
   songPosition: number;
+  maxDuration: number;
 }> = (props) => {
   const [songPosition, setSongPosition] = React.useState<number>(props.songPosition);
   return (
@@ -45,7 +46,6 @@ const PlayComponent: React.FC<{
             </span>
           </div>
           <div className="col-md-1 col-2">
-            {" "}
             <i
               className="ButtonNextRight fa fa-step-forward"
               aria-hidden="true"
@@ -63,6 +63,19 @@ const PlayComponent: React.FC<{
           <div className="col-sm-3 d-none d-md-block"></div>
         </div>
         <div className="SecondRow row-md d-none d-md-block">
+          <div className="range">
+            <input
+              onClick={() => songSlider(props.accessToken, songPosition, props.deviceId)}
+              value={songPosition}
+              min={0}
+              max={props.maxDuration}
+              step="1000"
+              type="range"
+              className="form-range"
+              id="customRange1"
+              onChange={(e) => setSongPosition(parseInt(e.target.value))}
+            />
+          </div>
           --------------------------------------slider--------------------------------------
         </div>
       </div>

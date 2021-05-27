@@ -143,7 +143,7 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       });
   };
 
-  const [maxDuration, setMaxDuration] = React.useState<number>();
+  const [maxDuration, setMaxDuration] = React.useState<number>(0);
   const [songPosition, setSongPosition] = React.useState<number>(0);
 
   React.useEffect(() => {
@@ -202,28 +202,12 @@ const Player: NextPage<Props> = ({ accessToken }) => {
       accessToken={accessToken}
       deviceId={deviceId}
       trackId={currentTrackId}
+      maxDuration={maxDuration}
     >
       <p>Welcome {user && user.display_name}</p>
       <p>Track : {currentTrackName}</p>
       <p>Album : {currentAlbumName}</p>
-      <div className="footerright col-3">
-        <label className="form-label" htmlFor="customRange1">
-          Position
-        </label>
-        <div className="range">
-          <input
-            onClick={() => songSlider(accessToken, songPosition, deviceId)}
-            value={songPosition}
-            min={0}
-            max={maxDuration}
-            step="1000"
-            type="range"
-            className="form-range"
-            id="customRange1"
-            onChange={(e) => setSongPosition(parseInt(e.target.value))}
-          />
-        </div>
-      </div>
+
       <Album
         id={currentAlbumId}
         image={currentAlbumImage}
