@@ -1,5 +1,6 @@
 import React from "react";
 import PlayComponent from "./PlayComponent";
+import { volumeSlider } from "../pages/player";
 
 const Footer: React.FC<{
   paused: boolean;
@@ -8,7 +9,9 @@ const Footer: React.FC<{
   currentTrackId: string;
   currentTrackName: string;
   trackId: string;
+  volumePercent: number;
 }> = (props) => {
+  const [volume, setVolume] = React.useState<number>(0);
   return (
     <>
       <div className="footerleft col-3">
@@ -23,7 +26,21 @@ const Footer: React.FC<{
           trackId={props.trackId}
         />
       </div>
-      <div className="footerright col-3">this is the third text</div>
+      <div className="footerright col-3">
+        <label className="form-label" htmlFor="customRange1">
+          Volume
+        </label>
+        <div className="range">
+          <input
+            onClick={() => volumeSlider(props.accessToken, volume, props.deviceId)}
+            value={volume}
+            type="range"
+            className="form-range"
+            id="customRange1"
+            onChange={(e) => setVolume(parseInt(e.target.value))}
+          />
+        </div>
+      </div>
     </>
   );
 };

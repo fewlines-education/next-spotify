@@ -51,6 +51,15 @@ export const previousTrackButton = (accessToken: string, deviceId: string) => {
   });
 };
 
+export const volumeSlider = (accessToken: string, volumePercent: number, deviceId: string) => {
+  return fetch(`https://api.spotify.com/v1/me/player/volume?volume_percent=${volumePercent}&device_id=${deviceId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+};
+
 const Player: NextPage<Props> = ({ accessToken }) => {
   const { data, error } = useSWR("/api/get-user-info");
 
