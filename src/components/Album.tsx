@@ -9,7 +9,7 @@ const Album: React.FC<any> = (props) => {
       <h1>{props.name}</h1>
       <img src={props.image} />
       <p>nombre de titres : {props.tracks.length}</p>
-      <p>Liste des titres : </p>
+      <p>Liste des titres :: </p>
       <ul>
         {props.tracks
           ? props.tracks.map((track: any, i: number) => (
