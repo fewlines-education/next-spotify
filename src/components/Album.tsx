@@ -34,18 +34,19 @@ const Album: React.FC<any> = (props) => {
             ))
           : "no tracks"}
       </ul>
-      <p>soundTimeMs:   {Math.floor((props.duration_ms / (1000 * 60 * 60)) % 24) >= 1 ? (
-        <p>
-          {Math.floor((props.duration_ms / (1000 * 60 * 60)) % 24)} h {Math.floor(props.duration_ms / (1000 * 60)) % 60}{" "}
-          min
-        </p>
-      ) : (
-        <p>
-          {Math.floor(props.duration_ms / 60000)} min {((props.duration_ms % 60000) / 1000).toFixed(0)} s
-        </p>
-      )}
-</p>
-
+      <p>
+        soundTimeMs:{" "}
+        {Math.floor((props.duration_ms / (1000 * 60 * 60)) % 24) >= 1 ? (
+          <p>
+            {Math.floor((props.duration_ms / (1000 * 60 * 60)) % 24)} h{" "}
+            {Math.floor(props.duration_ms / (1000 * 60)) % 60} min
+          </p>
+        ) : (
+          <p>
+            {Math.floor(props.duration_ms / 60000)} min {((props.duration_ms % 60000) / 1000).toFixed(0)} s
+          </p>
+        )}
+      </p>
     </div>
   );
 };

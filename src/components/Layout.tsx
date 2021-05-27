@@ -14,6 +14,7 @@ type Props = {
   currentTrackName: string;
   trackId: string;
   currentTrack: string;
+  songPosition: number;
 };
 
 export const Layout: React.FC<Props> = ({
@@ -26,6 +27,7 @@ export const Layout: React.FC<Props> = ({
   currentTrackId,
   currentTrackName,
   trackId,
+  songPosition,
 }) => {
   return (
     <>
@@ -63,6 +65,7 @@ export const Layout: React.FC<Props> = ({
 
         <div className="row">
           <Footer
+            songPosition={songPosition}
             currentTrackId={currentTrackId}
             currentTrackName={currentTrackName}
             paused={paused}
