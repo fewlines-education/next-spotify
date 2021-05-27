@@ -10,6 +10,7 @@ const Footer: React.FC<{
   currentTrackName: string;
   trackId: string;
   volumePercent: number;
+  songPosition: number;
 }> = (props) => {
   const [volume, setVolume] = React.useState<number>(0);
   return (
@@ -20,6 +21,7 @@ const Footer: React.FC<{
       </div>
       <div className="footermidle col-6">
         <PlayComponent
+          songPosition={props.songPosition}
           paused={props.paused}
           accessToken={props.accessToken}
           deviceId={props.deviceId}
