@@ -2,7 +2,7 @@ import { NextPage, GetServerSidePropsContext } from "next";
 import useSpotifyPlayer from "../hooks/useSpotifyPlayer";
 import Cookies from "cookies";
 import useSWR from "swr";
-import { Layout } from "../components/Layout";
+import Layout from "../components/Layout";
 import React from "react";
 import { SpotifyState, SpotifyTrack, SpotifyUser, SpotifyArtist } from "../types/spotify";
 import Album from "../components/Album";

@@ -16,9 +16,8 @@ type Props = {
 
   currentTrack: string;
   songPosition: number;
-
-
-const Layout: React.FC<Props> = ({
+};
+export const Layout: React.FC<Props> = ({
   children,
   isLoggedIn,
   spotifyLoginUrl,
@@ -65,17 +64,16 @@ const Layout: React.FC<Props> = ({
             <main className="mainBody">{children}</main>
           </div>
         </div>
-</div>
-          <Footer
-            songPosition={songPosition}
-            currentTrackId={currentTrackId}
-            currentTrackName={currentTrackName}
-            paused={paused}
-            accessToken={accessToken}
-            deviceId={deviceId}
-            trackId={trackId}
-          />
-
+      </div>
+      <Footer
+        songPosition={songPosition}
+        currentTrackId={currentTrackId}
+        currentTrackName={currentTrackName}
+        paused={paused}
+        accessToken={accessToken}
+        deviceId={deviceId}
+        trackId={trackId}
+      />
     </>
   );
 };
