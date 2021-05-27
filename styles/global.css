@@ -75,9 +75,10 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.sideBar {
+.SideBar {
   background-color: #000000;
   height: 47rem;
+position: fixed;
 }
 
 .form-control {
@@ -92,6 +93,8 @@ body {
 
 .mainBody {
   margin-top: 5rem;
+  margin-left: 8rem;
+  margin-bottom: 10rem;
 }
 
 .d-flex {

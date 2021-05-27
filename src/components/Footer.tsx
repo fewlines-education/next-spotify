@@ -12,6 +12,7 @@ const Footer: React.FC<{
   trackId: string;
   volumePercent: number;
   songPosition: number;
+  maxDuration: number;
 }> = (props) => {
   const [volume, setVolume] = React.useState<number>(0);
   return (
@@ -30,6 +31,8 @@ const Footer: React.FC<{
                 accessToken={props.accessToken}
                 deviceId={props.deviceId}
                 trackId={props.trackId}
+                songPosition={props.songPosition}
+                maxDuration={props.maxDuration}
               />
             </div>
             <div className="col-md-1 d-none d-md-block"><i className="fa fa-volume-up FooterAlignMiddleVolumeIcon"/></div>
