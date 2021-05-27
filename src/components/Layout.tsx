@@ -18,7 +18,7 @@ type Props = {
   songPosition: number;
 
 
-export const Layout: React.FC<Props> = ({
+const Layout: React.FC<Props> = ({
   children,
   isLoggedIn,
   spotifyLoginUrl,
