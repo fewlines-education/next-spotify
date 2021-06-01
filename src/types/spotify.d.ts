@@ -1,16 +1,10 @@
 // Keep in mind that this has been make from studying a console.log output
 // Don't put too much faith in it
 
-type SpotifyTrack = {
+export type SpotifyTrack = {
   id: string;
   uri: string;
   type: "track" | "album" | "artist" | "user";
-  linked_from_uri: any;
-  linked_from: {
-    uri: string | null;
-    id: string | null;
-  };
-  media_type: string;
   name: string;
   duration_ms: number;
   artists: {
@@ -67,4 +61,9 @@ export type SpotifyUser = {
   product?: string;
   type?: string;
   uri?: string;
+};
+
+export type SpotifyArtist = {
+  name: string;
+  uri: string;
 };
